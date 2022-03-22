@@ -1,0 +1,2 @@
+# RubyApplications
+ AgileFreaks ruby training
