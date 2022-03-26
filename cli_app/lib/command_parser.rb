@@ -1,14 +1,16 @@
-require './lib/show_command'
+# frozen_string_literal: true
 
-class CommandParser 
-    class << self
-        def parse(argv)
-            if argv[0] == "show"
-               ShowCommand.new(argv[1]).result
-            else
-                STDERR.puts("The command doesn't exist")
-                exit(1)
-            end
-        end
+require './lib/show_command'
+require './lib/help_command'
+
+class CommandParser
+  class << self
+    def parse(argv)
+      if argv[0] == 'show'
+        ShowCommand.create(argv[1..])
+      else
+        HelpCommand.create
+      end
     end
+  end
 end
