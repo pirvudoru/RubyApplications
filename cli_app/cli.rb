@@ -7,10 +7,7 @@ prog = Executable.exec(ARGV)
 
 pp(prog)
 # Faraday.default_adapter = :net_http
-
 # base_url = 'https://rubygems.org/api/v1'
-
-
 # options = {}
 
 #  optparse = OptionParser.new do |opts|
@@ -77,7 +74,3 @@ pp(prog)
 
 #     exit(0)
 # end
-
-
-
-
