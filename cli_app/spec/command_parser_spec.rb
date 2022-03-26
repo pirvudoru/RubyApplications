@@ -1,12 +1,13 @@
-require "./lib/command_parser"
-require './lib/show_command'
+require './lib/command_parser'
 
 RSpec.describe CommandParser do
-    let(:argv) { ['show','rspec']}
+  describe '.parse' do
+    let(:argv) { %w[show rspec] }
 
-    it "should return the ShowResult" do
-        result = CommandParser.parse(argv)
+    subject(:parse) { CommandParser.parse(argv) }
 
-        expect(result.name).to eq 'rspec'
+    it 'returns the gem name' do
+      expect(parse.name).to eq 'rspec'
     end
+  end
 end
