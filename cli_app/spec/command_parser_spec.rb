@@ -6,8 +6,24 @@ RSpec.describe CommandParser do
 
     subject(:parse) { CommandParser.parse(argv) }
 
-    it 'returns the gem name' do
-      expect(parse.name).to eq 'rspec'
+    it { is_expected.to be_a ShowCommand }
+
+    context 'with no args' do
+      let(:argv) { [] }
+
+      it { is_expected.to be_a HelpCommand }
+    end
+
+    context 'with no gem name' do
+      let(:argv) { ['show'] }
+
+      it { is_expected.to be_a HelpShowCommand }
+    end
+
+    context 'with unknown command' do
+      let(:argv) { %w[cook beef] }
+
+      it { is_expected.to be_a HelpCommand }
     end
   end
 end
