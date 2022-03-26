@@ -1,6 +1,7 @@
 require 'faraday'
 require './lib/show_command'
-
+require './results/success'
+require './results/failure'
 
 class ApiCall
     @@base_url = 'https://rubygems.org/api/v1'
@@ -14,9 +15,11 @@ class ApiCall
             response = Faraday.get(url)
 
             if response.status == 200
-                [:success, JSON.parse(response.body)]
+                Success.new(JSON.parse(response.body))
+                # [:success, JSON.parse(response.body)]
             else
-                [:error, { 'message' => response.body }]
+                Failure.new({ 'message' => response.body })
+                # [:error, { 'message' => response.body }]
             end
         end
 
