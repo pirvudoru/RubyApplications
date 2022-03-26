@@ -1,5 +1,6 @@
 require './lib/api_call'
 require './lib/help_show_command'
+require './lib/info_result'
 
 class ShowCommand
 
@@ -17,6 +18,7 @@ class ShowCommand
       return HelpShowCommand.new if args.empty?
 
       new(args.first)
+
     end
   end
 
@@ -27,8 +29,13 @@ class ShowCommand
   end
 
   def result
-    res = ApiCall.show(@name)
+    status, data = ApiCall.show(@name)
 
-    ShowResult.new(res['name'], res['info'])
+    case status
+    when :success
+      ShowResult.new(data['name'], data['info'])
+    when :error
+      InfoResult.new(data)
+    end
   end
 end

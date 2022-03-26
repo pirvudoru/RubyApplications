@@ -13,13 +13,11 @@ class ApiCall
             url = @@base_url + url_completion
             response = Faraday.get(url)
 
-            if response.status != 200
-                STDERR.puts("The gem doesn't exit") 
-                exit(12) 
+            if response.status == 200
+                [:success, JSON.parse(response.body)]
+            else
+                [:error, { 'message' => response.body }]
             end
-    
-            parsed_response = JSON.parse(response.body)
-            
         end
 
         def search(query)
