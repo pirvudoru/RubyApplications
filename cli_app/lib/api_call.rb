@@ -2,6 +2,7 @@ require 'faraday'
 require './lib/show_command'
 require './results/success'
 require './results/failure'
+require './lib/gem_api'
 
 class ApiCall
     @@base_url = 'https://rubygems.org/api/v1'
@@ -32,10 +33,7 @@ class ApiCall
                 gem_list = []
 
                 JSON.parse(response.body).each do |gem|
-                    elem = []
-                    elem.append(gem['name'])
-                    elem.append(gem['info'])
-                    gem_list.append(elem)
+                    gem_list.append(GemApi.new(gem['name'], gem['info'], gem['version']))
                 end
                 Success.new(gem_list)
             else
