@@ -24,8 +24,24 @@ class ApiCall
         end
 
         def search(query)
-            return 0
-        end
+            url_completion = "/search.json?query=#{query}"
+            url = @@base_url + url_completion
+            response = Faraday.get(url)
+
+            if response.status == 200
+                gem_list = []
+
+                JSON.parse(response.body).each do |gem|
+                    elem = []
+                    elem.append(gem['name'])
+                    elem.append(gem['info'])
+                    gem_list.append(elem)
+                end
+                Success.new(gem_list)
+            else
+                Failure.new({'message' => response.body})
+            end
+        end 
 
     end
 

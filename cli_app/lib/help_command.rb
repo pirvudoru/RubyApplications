@@ -7,5 +7,6 @@ class HelpCommand
 
   def result
     # TODO: Implement
+    'Please introduce commands show or search'
   end
 end

@@ -15,7 +15,7 @@ class ShowCommand
 
   class << self
     def create(args)
-      return HelpShowCommand.new if args.empty?
+      return HelpShowCommand.new if args.empty? || args.length > 1
 
       new(args.first)
 
