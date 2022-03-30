@@ -36,21 +36,5 @@ class ShowCommand
     end
 
     InfoResult.new(result.data['message'])
-    # case status
-    # when :success
-    #   ShowResult.new(data['name'], data['info'])
-    # when :error
-    #   InfoResult.new(data['message'])
-    # end
   end
-  # def result
-  #   status, data = ApiCall.show(@name)
-
-  #   case status
-  #   when :success
-  #     ShowResult.new(data['name'], data['info'])
-  #   when :error
-  #     InfoResult.new(data['message'])
-  #   end
-  # end
 end

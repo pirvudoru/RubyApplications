@@ -15,21 +15,13 @@ class SearchCommand
     def create(args)
       return HelpSearchCommand.new if args.empty?
 
-      if args.length() > 1 
-        args = to_s_query(args)
-      end
-      
-      new(args)
+      new(args.length > 1 ? to_s_query(args) : args[0])
     end
 
-    
     def to_s_query(query)
       string_query = ''
-      query.each do |q|
-        string_query = string_query + "+#{q}"
-      end
-
-      return string_query[1..]
+      query.each{ |str| string_query+="+#{str}" }
+      string_query[1..]
   end
 
   end

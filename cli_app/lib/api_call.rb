@@ -4,44 +4,36 @@ require './results/success'
 require './results/failure'
 require './lib/gem_api'
 
+BASE_URL = 'https://rubygems.org/api/v1'
+
 class ApiCall
-    @@base_url = 'https://rubygems.org/api/v1'
-    Faraday.default_adapter = :net_http
+  Faraday.default_adapter = :net_http
 
-    class << self
+  class << self
     
-        def show(name)
-            url_completion = "/gems/#{name}.json"
-            url = @@base_url + url_completion
-            response = Faraday.get(url)
+    def show(name)
+      url_completion = "/gems/#{name}.json"
+      url = BASE_URL + url_completion
+      response = Faraday.get(url)
 
-            if response.status == 200
-                Success.new(JSON.parse(response.body))
-                # [:success, JSON.parse(response.body)]
-            else
-                Failure.new({ 'message' => response.body })
-                # [:error, { 'message' => response.body }]
-            end
-        end
-
-        def search(query)
-            url_completion = "/search.json?query=#{query}"
-            url = @@base_url + url_completion
-            response = Faraday.get(url)
-
-            if response.status == 200
-                gem_list = []
-
-                JSON.parse(response.body).each do |gem|
-                    gem_list.append(GemApi.new(gem['name'], gem['info'], gem['version']))
-                end
-                Success.new(gem_list)
-            else
-                Failure.new({'message' => response.body})
-            end
-        end 
-
+      if response.status == 200
+        Success.new(JSON.parse(response.body))
+      else
+        Failure.new({ 'message' => response.body })
+      end
     end
 
+    def search(query)
+      url_completion = "/search.json?query=#{query}"
+      url = BASE_URL + url_completion
+      response = Faraday.get(url)
 
+      if response.status == 200
+        gem_list = JSON.parse(response.body).map { |gem| GemApi.new(gem['name'], gem['info'], gem['version']) }
+        Success.new(gem_list)
+      else
+        Failure.new('message' => response.body)
+      end 
+    end
+  end
 end
